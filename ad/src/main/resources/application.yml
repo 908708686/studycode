@@ -1,0 +1,29 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:sqlite:./db/db.sqlite
+    driver-class-name: org.sqlite.JDBC
+  mail:
+    smtp: smtp.exmail.qq.com
+    port: 465
+    from: xx@unisfuture.cn
+    password: xx
+  ad:
+#    domain: unisyuetest
+#    url: ldap://hztestad.unisyuetest.cn:389
+#        domain: unisyue
+#        url: ldap://10.37.32.114:389
+    expireday: 100
+#  quartz:
+#    job-store-type: memory
+#    scheduler-name: myScheduler
+#  main:
+#    allow-circular-references: true
+logging:
+  file:
+    name: ./logs/app.log
+  level:
+    root: warn
+    org.springframework.web: debug
+    cn.unis.ad: debug

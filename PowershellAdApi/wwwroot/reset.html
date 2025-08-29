@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域账号管理平台</title>
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+    <h1>域账号密码重置</h1>
+
+
+    <div class="container">
+        <div class="main">
+            <div class="content">
+                域账号：<input type="text" id="adname" placeholder="请输入域账号">
+                <button id="cc" onclick="createCode();">获取验证码</button><br>
+                验证码：<input type="text" id="code" placeholder="请输入验证码">
+                <input type="button" id="tijiao" value="提交" onclick="checkCode();"><br>
+            </div>
+            <div>
+                <a href="/index.html">返回主页</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //生成验证码
+        function createCode() {
+            var data = {
+                "adname": document.getElementById("adname").value,
+            };
+            // 提交信息到后端
+            call_svc("/createcode", data, function (result) {
+                alert(result.message);
+            })
+        }
+        //检查验证码
+        function checkCode() {
+            var data = {
+                "adname": document.getElementById("adname").value,
+                "code": document.getElementById("code").value,
+            };
+            // 提交信息到后端
+            call_svc("/checkcode", data, function (result) {
+                alert(result.message);
+            })
+        };
+
+        function call_svc(url, data, callback, errCallback) {
+            fetch(url, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status == "success") {
+                        if (callback) { callback(result); }
+                    }
+                    else {
+                        if (errCallback) {
+                            errCallback(result);
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        var btn = document.querySelector('#cc');
+        var time = 300; // 定义剩下的秒数
+        btn.addEventListener('click', function () {
+            btn.disabled = true;
+            var timer = setInterval(function () {
+                if (time == 0) {
+                    // 清除定时器和复原按钮
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.innerHTML = '发送';
+                    time = 3; // 重新赋值时间变量
+                } else {
+                    btn.innerHTML = time + '秒后可再次发送';
+                    time--;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+<style>
+    @media screen and (max-width: 480px) {
+        .main {
+            width: 100%;
+        }
+    }
+
+    #tijiao {
+        width: 82px;
+    }
+
+    body {
+        margin: auto; 
+        width: 25%;
+        line-height: 40px;
+    }
+
+    /* 媒体查询例子 */
+    @media (max-width: 768px) {
+        body {
+            background-color: blue;
+            margin: auto;
+            width: 40%;
+            padding: 1%;
+            line-height: 40px;
+
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            background-color: green;
+            margin: auto;
+            width: 90%;
+            padding: 1%;
+            line-height: 40px;
+
+
+        }
+    }
+</style>
+
+</html>

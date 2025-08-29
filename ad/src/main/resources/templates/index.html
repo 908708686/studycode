@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域账号管理平台</title>
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+    <h1 class="container">域账号密码修改</h1>
+
+    <div class="container">
+        <div class="main">
+            <div class="content">
+                域账号：<input type="text" id="adname" placeholder="请输入域账号"><br>
+                旧密码：<input type="password" id="oldpassword" placeholder="请输入旧密码"><br>
+                新密码：<input type="password" id="newpassword1" placeholder="请输入密码"><br>
+                新密码：<input type="password" id="newpassword2" placeholder="请再次输入密码"><br>
+                <input type="button" class="button" value="确定" onclick="update();"><br>
+            </div>
+            <div>
+                <a href="#" th:href="@{/reset}">忘记密码</a>
+            </div>
+        </div>
+    </div>
+	<div style="font-size: 12px;">
+	<br>
+	本平台只支持谷歌浏览器<br>
+	不能包含用户姓名中超过两个连续字符的部分<br>
+	不能包含用户的帐户名<br>
+	至少有八个字符长，<br>
+	必须包含以下四类字:<br>
+	至少包含一个英文大写字母(A 到 Z)<br>
+	至少包含一个英文小写字母(a 到 z)<br>
+	至少包含一个基本数字(0 到 9)<br>
+    至少包含一个字符,且只能使用这些特殊字符(@!%*?&_.)<br>
+	<br>
+	</div>
+    <script type="text/javascript">
+        function update() {
+            var data = {
+                "adname": document.getElementById("adname").value,
+                "oldpassword": document.getElementById("oldpassword").value,
+                "newpassword1": document.getElementById("newpassword1").value,
+                "newpassword2": document.getElementById("newpassword2").value,
+            };
+            call_svc("/updatepwd", data, function (result) {
+                alert(result.message);
+            })
+
+        }
+
+        function call_svc(url, data, callback, errCallback) {
+            fetch(url, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status == "success") {
+                        if (callback) { callback(result); }
+                    }
+                    else {
+                        if (errCallback) {
+                            errCallback(result);
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
+
+</body>
+<style>
+    .button {
+        width: 242px;
+        height: 30px;
+    }
+
+    body {
+        margin: auto;
+        width: 20%;
+    }
+
+    /* 媒体查询例子 */
+    @media (max-width: 768px) {
+        body {
+            background-color: rgba(230, 247, 255, 0.96);
+            margin: auto;
+            width: 40%;
+            padding: 1%;
+            line-height: 40px;
+
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            background-color: rgba(230, 247, 255, 0.96);
+            margin: auto;
+            width: 70%;
+            padding: 1%;
+            line-height: 40px;
+
+
+        }
+    }
+</style>
+
+</html>
