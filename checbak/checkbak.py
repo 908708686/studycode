@@ -120,12 +120,6 @@ def checkbak():
         content="各位同事,你们好！经过检查以下系统不符合备份要求：\n"+ content
         content = content[:-1]
         send_wechat_message(content)
-
-
-
-
-
-
 def daily_task():
     """每天10点需要执行的任务"""
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
