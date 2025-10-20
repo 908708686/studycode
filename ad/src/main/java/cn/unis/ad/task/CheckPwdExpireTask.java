@@ -62,7 +62,7 @@ public class CheckPwdExpireTask extends QuartzJobBean {
                     if (adExpirday > 0) {
                         log.debug(samid + "账号未过期"+"adExpirday:"+adExpirday+"expireday:"+expireday);
                         if (adExpirday < expireday) {
-                            log.debug(samid+"邮箱为__________________________"+getMailUtil.getMailAddress(samid));
+                            log.debug(samid+"邮箱为："+getMailUtil.getMailAddress(samid));
                             sendExpireMail.SendExpireMai(getMailUtil.getMailAddress(samid), MailContent(samid, adExpirday));
                         } else {
                             log.debug(samid + "账号未到达密码过期时间预警，无须发送邮件");
