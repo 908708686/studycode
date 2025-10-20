@@ -27,7 +27,7 @@ public class MyJob extends QuartzJobBean {
             LocalDateTime now = LocalDateTime.now();
             String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             log.info("co:"+co+"--Executing MyJob at: " + formattedDateTime);
-            log.info("测试");
+            log.info("测试代码");
         }finally {
             lock.unlock();
         }
